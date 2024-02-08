@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
 <style>
-  /* Общие стили для контейнера и элементов */
   .content {
     display: flex;
     justify-content: space-around;
@@ -13,13 +12,12 @@
   }
 
   .content-item {
-    width: 30%; /* Устанавливаем ширину карточки */
+    width: 30%;
     padding: 10px;
     border: 1px solid #ccc;
     text-align: center;
   }
 
-  /* Стили для изображений */
   .content-item img {
     max-width: 100%;
     height: auto;
@@ -28,22 +26,17 @@
 </head>
 <body>
 
-<!-- Контейнер для контента -->
 <div class="content"></div>
 
 <script src="data.js"></script>
 <script>
   "use strict";
 
-  // Создание переменной data и добавление в нее данных из data.js
   const data = JSON.parse(datainfo);
 
-  // Получаем ссылку на контейнер для контента
   const contentContainer = document.querySelector('.content');
 
-  // Создаем контент из данных и добавляем его в HTML-разметку
   data.forEach(function(item) {
-    // Создаем элементы для изображения, заголовка и параграфа
     const imageElement = document.createElement('img');
     imageElement.src = item.url;
 
@@ -53,16 +46,13 @@
     const paragraphElement = document.createElement('p');
     paragraphElement.textContent = "Это описание для " + item.id;
 
-    // Создаем общий контейнер для элементов и добавляем им класс
     const contentItem = document.createElement('div');
     contentItem.classList.add('content-item');
 
-    // Добавляем созданные элементы в общий контейнер
     contentItem.appendChild(imageElement);
     contentItem.appendChild(headerElement);
     contentItem.appendChild(paragraphElement);
 
-    // Добавляем контейнер с контентом в основной контейнер на странице
     contentContainer.appendChild(contentItem);
   });
 </script>
