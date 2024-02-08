@@ -1,111 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    .error {
-      border: 2px solid red;
-    }
-  </style>
-  <title>JavaScript урок 8</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
+  /* Общие стили для контейнера и элементов */
+  .content {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+
+  .content-item {
+    width: 30%; /* Устанавливаем ширину карточки */
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+
+  /* Стили для изображений */
+  .content-item img {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
 </head>
 <body>
 
-<input id="from" type="text">
-В инпуте написано: <span></span>
+<!-- Контейнер для контента -->
+<div class="content"></div>
 
-<br>
-
-<button class="messageBtn">Показать блок</button>
-<div class="message" style="visibility: hidden;">
-  Привет :)
-</div>
-
-<br>
-
-<form id="myForm">
-  <label>
-    Первый инпут:
-    <input class="form-control" type="text" id="input1">
-  </label>
-  <br>
-  <br>
-  <label>
-    Второй инпут:
-    <select class="form-control" id="input2">
-      <option value=""></option>
-      <option value="1">Один</option>
-      <option value="2">Два</option>
-    </select>
-  </label>
-  <br>
-  <br>
-  <button type="submit">Отправить</button>
-</form>
-
-<!-- 1. При изменении значения в input с id="from", значение содержащееся в нем должно моментально
-отображаться в span. То есть при печати в input'е тег span также должен меняться.
-
-2. При клике на кнопку с классом messageBtn необходимо элементу с классом message:
-- добавить два класса: animate_animated и animate_fadeInLeftBig
-- поставить данному элементу стиль visibility в значение 'visible'.
-
-3. Необходимо при отправке формы проверить, заполнены ли все поля в этой форме. Если какое-либо поле
-не заполнено, форма не должна отправляться, также должны быть подсвечены незаполненные поля
-(необходимо поставить класс error незаполненным полям). Как только пользователь начинает заполнять
-какое-либо поле, необходимо, при вводе в данное поле, произвести проверку:
-- Если поле пустое, необходимо данное поле подсветить (поставить класс error данному полю).
-- Если поле было чем-либо заполнено, подсветку (класс error) необходимо убрать. -->
-
+<script src="data.js"></script>
 <script>
   "use strict";
 
-  const inputFrom = document.getElementById('from');
-  const spanElement = document.querySelector('#from + span');
+  // Создание переменной data и добавление в нее данных из data.js
+  const data = JSON.parse(datainfo);
 
-  inputFrom.addEventListener('input', function () {
-    spanElement.textContent = inputFrom.value;
-  });
+  // Получаем ссылку на контейнер для контента
+  const contentContainer = document.querySelector('.content');
 
-  const messageBtn = document.querySelector('.messageBtn');
-  const messageElement = document.querySelector('.message');
+  // Создаем контент из данных и добавляем его в HTML-разметку
+  data.forEach(function(item) {
+    // Создаем элементы для изображения, заголовка и параграфа
+    const imageElement = document.createElement('img');
+    imageElement.src = item.url;
 
-  messageBtn.addEventListener('click', function () {
-    messageElement.classList.add('animate_animated', 'animate_fadeInLeftBig');
-    messageElement.style.visibility = 'visible';
-  });
+    const headerElement = document.createElement('h2');
+    headerElement.textContent = item.id;
 
-  const myForm = document.getElementById('myForm');
-  const formInputs = myForm.querySelectorAll('.form-control');
+    const paragraphElement = document.createElement('p');
+    paragraphElement.textContent = "Это описание для " + item.id;
 
-  myForm.addEventListener('submit', function (event) {
-    event.preventDefault();
+    // Создаем общий контейнер для элементов и добавляем им класс
+    const contentItem = document.createElement('div');
+    contentItem.classList.add('content-item');
 
-    let isFormValid = true;
+    // Добавляем созданные элементы в общий контейнер
+    contentItem.appendChild(imageElement);
+    contentItem.appendChild(headerElement);
+    contentItem.appendChild(paragraphElement);
 
-    formInputs.forEach(function (input) {
-      if (input.value.trim() === '') {
-        input.classList.add('error');
-        isFormValid = false;
-      } else {
-        input.classList.remove('error');
-      }
-    });
-
-    if (isFormValid) {
-      alert('Форма успешно отправлена!');
-    }
-  });
-
-  formInputs.forEach(function (input) {
-    input.addEventListener('input', function () {
-      if (input.value.trim() === '') {
-        input.classList.add('error');
-      } else {
-        input.classList.remove('error');
-      }
-    });
+    // Добавляем контейнер с контентом в основной контейнер на странице
+    contentContainer.appendChild(contentItem);
   });
 </script>
 
